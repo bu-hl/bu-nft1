@@ -11,6 +11,8 @@
     "node:stop": "lsof -ti:8545 | xargs kill -9 2>/dev/null || echo 'No node running'",
     "mint": "hardhat run scripts/mint.js --network localhost",
     "mint:hoodi": "hardhat run scripts/mint.js --network hoodi",
+    "set-uri": "hardhat run scripts/setBaseURI.js --network localhost",
+    "set-uri:hoodi": "hardhat run scripts/setBaseURI.js --network hoodi",
     "wallet": "node scripts/wallet.js"
   },
   "devDependencies": {
