@@ -9,6 +9,8 @@ artifacts/
 .env
 .env.local
 .env.*.local
+.aws/
+.local/
 
 # IDE
 .idea/
@@ -31,3 +33,6 @@ typechain-types/
 # Logs
 *.log
 npm-debug.log*
+
+images/generated/
+metadata/generated/

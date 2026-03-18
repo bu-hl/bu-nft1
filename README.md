@@ -1,32 +1,24 @@
 # 기본 NFT 컨트랙트
 
-Simple ERC-721 NFT 컨트랙트입니다.
+Simple ERC-721 NFT 컨트랙트입니다. 메타데이터 JSON과 PNG 이미지를 생성해서 S3에 올리고, 컨트랙트 `baseURI`까지 연결하는 흐름을 포함합니다.
 
-## 학습 목표
+## 주요 파일
 
-- ERC-721 표준 이해
-- OpenZeppelin 라이브러리 사용법
-- Hardhat 기본 사용법
-- NFT 민팅 구현
+- `contracts/SimpleNFT.sol`: ERC-721 컨트랙트
+- `scripts/generateMetadata.js`: 메타데이터 JSON 생성
+- `scripts/generateCharacterImages.js`: 캐릭터 PNG 생성
+- `scripts/uploadToS3.js`: S3 업로드
+- `scripts/setBaseURI.js`: 컨트랙트 Base URI 설정
 
-## 컨트랙트 구조
-
-- `SimpleNFT.sol`: 최소한의 ERC-721 구현
-  - mint(): NFT 발행 (owner만 가능)
-  - setBaseURI(): 메타데이터 URI 설정
-  - totalSupply(): 발행된 총 NFT 수
-
-## 실행 방법
-
-### 1. 의존성 설치
+## 1. 의존성 설치
 
 ```bash
 npm install
 ```
 
-### 2. 환경변수 설정
+## 2. 환경변수 설정
 
-`.env.example`를 복사한 뒤 필요한 값을 채웁니다.
+`.env.example`를 복사한 뒤 값을 채웁니다.
 
 ```bash
 cp .env.example .env
@@ -38,33 +30,44 @@ cp .env.example .env
 PRIVATE_KEY=your_wallet_private_key_here
 SEPOLIA_RPC_URL=https://ethereum-sepolia-rpc.publicnode.com
 HOODI_RPC_URL=https://rpc.hoodi.ethpandaops.io
+
+AWS_ACCESS_KEY_ID=your_aws_access_key_id
+AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
+AWS_REGION=ap-northeast-2
+S3_BUCKET_NAME=your-bucket-name
+
 NFT_CONTRACT_ADDRESS=your_contract_address_here
-NFT_BASE_URI=https://your-bucket.s3.region.amazonaws.com/metadata/
+NFT_BASE_URI=https://your-bucket.s3.ap-northeast-2.amazonaws.com/metadata/
+NFT_IMAGE_BASE_URI=https://your-bucket.s3.ap-northeast-2.amazonaws.com/images
 ```
 
-### 3. 컴파일
+참고:
+
+- `NFT_BASE_URI` 는 컨트랙트의 `tokenURI` 베이스 주소입니다.
+- `NFT_IMAGE_BASE_URI` 는 메타데이터 JSON 내부의 `image` 필드에 들어갑니다.
+- 일반 IAM Access Key를 쓰는 경우 `AWS_SESSION_TOKEN` 은 필요 없습니다.
+
+## 3. 컴파일
 
 ```bash
 npm run compile
 ```
 
-### 4. 로컬 배포 테스트
+## 4. 로컬 테스트
 
 ```bash
-# 터미널 1: 로컬 노드 실행
+# 터미널 1
 npm run node
 
-# 터미널 2: 배포
+# 터미널 2
 npm run deploy:localhost
-
-# 민팅
 npm run mint
-
-# Base URI 설정
 npm run set-uri
 ```
 
-### 5. 세폴리아 배포
+## 5. 배포
+
+Sepolia:
 
 ```bash
 npm run deploy:sepolia
@@ -72,13 +75,7 @@ npm run mint:sepolia
 npm run set-uri:sepolia
 ```
 
-세폴리아 기본 체인 정보:
-
-- Network Name: Sepolia
-- Chain ID: 11155111
-- Currency Symbol: ETH
-
-### 6. Hoodi 배포
+Hoodi:
 
 ```bash
 npm run deploy:hoodi
@@ -86,10 +83,141 @@ npm run mint:hoodi
 npm run set-uri:hoodi
 ```
 
-### 7. 지갑 생성
+`NFT_CONTRACT_ADDRESS` 는 실제 배포한 네트워크의 주소로 맞춰야 합니다.
 
-테스트용 지갑이 필요하면 아래 명령으로 새 지갑을 생성할 수 있습니다.
+## 6. 지갑 생성
 
 ```bash
 npm run wallet
 ```
+
+## 7. 캐릭터 이미지 생성
+
+토큰 ID를 시드로 사용해서 간단한 캐릭터 PNG를 생성합니다.
+
+```bash
+# 기본: 1번부터 10개 생성
+npm run images
+
+# 1번부터 20개 생성
+node scripts/generateCharacterImages.js 20
+
+# 101번부터 50개 생성
+node scripts/generateCharacterImages.js 50 101
+```
+
+생성 결과:
+
+- `images/generated/1.png`
+- `images/generated/2.png`
+
+## 8. 메타데이터 생성
+
+`metadata/template.json`의 `TOKEN_ID`, `NFT_IMAGE_BASE_URI` 같은 플레이스홀더를 `.env` 값으로 치환합니다.
+
+```bash
+# 기본: 1번부터 10개 생성
+npm run metadata
+
+# 1번부터 20개 생성
+node scripts/generateMetadata.js 20
+
+# 101번부터 50개 생성
+node scripts/generateMetadata.js 50 101
+```
+
+생성 결과:
+
+- `metadata/generated/1.json`
+- `metadata/generated/2.json`
+
+## 9. S3 업로드
+
+이미지 업로드:
+
+```bash
+npm run upload:images
+```
+
+메타데이터 업로드:
+
+```bash
+npm run upload:metadata
+```
+
+임의 폴더 업로드:
+
+```bash
+node scripts/uploadToS3.js metadata/generated metadata
+node scripts/uploadToS3.js images/generated images
+```
+
+예:
+
+- `images/generated/1.png` -> `s3://your-bucket/images/1.png`
+- `metadata/generated/1.json` -> `s3://your-bucket/metadata/1.json`
+
+## 10. S3 공개 설정
+
+브라우저와 Etherscan에서 메타데이터/이미지를 읽으려면 S3 공개 읽기 설정이 필요합니다.
+
+1. `S3 > 버킷 > Permissions > Block public access` 에서 퍼블릭 차단을 해제합니다.
+2. `S3 > 버킷 > Permissions > Bucket policy` 에 아래 정책을 추가합니다.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PublicReadMetadata",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::your-bucket/metadata/*"
+    },
+    {
+      "Sid": "PublicReadImages",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::your-bucket/images/*"
+    }
+  ]
+}
+```
+
+확인 예시:
+
+- `https://your-bucket.s3.ap-northeast-2.amazonaws.com/metadata/1.json`
+- `https://your-bucket.s3.ap-northeast-2.amazonaws.com/images/1.png`
+
+## 11. 권장 실행 순서
+
+```bash
+npm run images
+npm run metadata
+npm run upload:images
+npm run upload:metadata
+npm run set-uri:hoodi
+```
+
+그 다음 NFT를 민팅하면 `tokenURI(tokenId)` 가 S3 메타데이터를 가리키게 됩니다.
+
+## 12. Hoodi / Etherscan 확인
+
+Hoodi 컨트랙트 주소 예시:
+
+```text
+https://hoodi.etherscan.io/address/<컨트랙트주소>
+```
+
+NFT 페이지 예시:
+
+```text
+https://hoodi.etherscan.io/nft/<컨트랙트주소>/1
+```
+
+Etherscan 반영이 늦을 수 있으므로, 먼저 아래 두 URL이 직접 열리는지 확인하는 것이 가장 확실합니다.
+
+- `https://your-bucket.s3.ap-northeast-2.amazonaws.com/metadata/1.json`
+- `https://your-bucket.s3.ap-northeast-2.amazonaws.com/images/1.png`
