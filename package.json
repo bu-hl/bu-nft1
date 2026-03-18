@@ -17,7 +17,8 @@
     "set-uri:sepolia": "hardhat run scripts/setBaseURI.js --network sepolia",
     "set-uri:hoodi": "hardhat run scripts/setBaseURI.js --network hoodi",
     "wallet": "node scripts/wallet.js",
-    "address": "node scripts/privateKeyToAddress.js"
+    "address": "node scripts/privateKeyToAddress.js",
+    "balance": "node scripts/checkEthBalance.js"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
