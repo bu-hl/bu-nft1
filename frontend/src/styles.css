@@ -1,0 +1,313 @@
+:root {
+  font-family: "Space Grotesk", "IBM Plex Sans KR", "Noto Sans KR", sans-serif;
+  color: #f6f1e8;
+  background:
+    radial-gradient(circle at top left, rgba(241, 180, 76, 0.28), transparent 30%),
+    radial-gradient(circle at right 20%, rgba(66, 124, 216, 0.3), transparent 28%),
+    linear-gradient(135deg, #11131a 0%, #171f2f 48%, #0d1117 100%);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app-shell {
+  position: relative;
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 24px;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.backdrop {
+  position: fixed;
+  inset: auto;
+  width: 420px;
+  height: 420px;
+  border-radius: 999px;
+  filter: blur(90px);
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+.backdrop-left {
+  top: -80px;
+  left: -100px;
+  background: #f4b400;
+}
+
+.backdrop-right {
+  right: -120px;
+  bottom: -120px;
+  background: #2878ff;
+}
+
+.contract-panel,
+.detail-panel {
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(18px);
+  background: rgba(9, 13, 20, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+}
+
+.contract-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 28px;
+  border-radius: 28px;
+}
+
+.detail-panel {
+  min-width: 0;
+  padding: 24px;
+  border-radius: 32px;
+}
+
+.panel-header h1,
+.hero-card h2,
+.section-heading h3,
+.state-panel h2,
+.nft-heading h3 {
+  margin: 0;
+  letter-spacing: -0.04em;
+}
+
+.panel-header h1 {
+  font-size: clamp(2rem, 4vw, 2.9rem);
+  line-height: 0.95;
+}
+
+.panel-copy,
+.hero-copy,
+.nft-description,
+.state-panel p {
+  color: rgba(246, 241, 232, 0.72);
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: #f4b400;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.contract-list {
+  display: grid;
+  gap: 14px;
+}
+
+.contract-card {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  color: #f6f1e8;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+  cursor: pointer;
+}
+
+.contract-card:hover,
+.contract-card.is-active {
+  transform: translateY(-2px);
+  border-color: rgba(244, 180, 0, 0.45);
+  background: rgba(244, 180, 0, 0.12);
+}
+
+.contract-network {
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(40, 120, 255, 0.2);
+  color: #9ec3ff;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.contract-address,
+.hero-stats dd {
+  overflow-wrap: anywhere;
+}
+
+.hero-card {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px;
+  padding: 28px;
+  border-radius: 28px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+    rgba(255, 255, 255, 0.02);
+}
+
+.hero-card h2 {
+  font-size: clamp(2rem, 3vw, 3.2rem);
+}
+
+.hero-stats {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+}
+
+.hero-stats div {
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(12, 18, 29, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.hero-stats dt {
+  margin-bottom: 6px;
+  color: rgba(246, 241, 232, 0.55);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.hero-stats dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.nft-section {
+  margin-top: 24px;
+}
+
+.section-heading {
+  margin-bottom: 18px;
+}
+
+.nft-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.nft-card {
+  overflow: hidden;
+  border-radius: 24px;
+  background: rgba(11, 16, 25, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nft-media {
+  aspect-ratio: 1 / 1;
+  background: linear-gradient(135deg, rgba(244, 180, 0, 0.16), rgba(40, 120, 255, 0.18));
+}
+
+.nft-media img,
+.nft-placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.nft-media img {
+  display: block;
+  object-fit: cover;
+}
+
+.nft-placeholder {
+  display: grid;
+  place-items: center;
+  color: rgba(246, 241, 232, 0.55);
+}
+
+.nft-body {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.nft-token {
+  margin: 0 0 4px;
+  color: #f4b400;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nft-links {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.nft-links a {
+  padding: 9px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.attribute-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.attribute-chip {
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.attribute-chip span {
+  display: block;
+  color: rgba(246, 241, 232, 0.56);
+  font-size: 0.78rem;
+  margin-bottom: 6px;
+}
+
+.state-panel,
+.empty-gallery {
+  display: grid;
+  place-items: center;
+  min-height: 300px;
+  text-align: center;
+}
+
+@media (max-width: 980px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-card {
+    grid-template-columns: 1fr;
+  }
+}

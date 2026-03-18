@@ -16,6 +16,14 @@ Simple ERC-721 NFT 컨트랙트입니다. 메타데이터 JSON과 PNG 이미지�
 npm install
 ```
 
+프론트엔드도 사용할 경우:
+
+```bash
+cd frontend
+cp .env.sample .env
+npm install
+```
+
 ## 2. 환경변수 설정
 
 `.env.example`를 복사한 뒤 값을 채웁니다.
@@ -128,8 +136,8 @@ node scripts/generateMetadata.js 50 101
 
 생성 결과:
 
-- `metadata/generated/1.json`
-- `metadata/generated/2.json`
+- `metadata/generated/1`
+- `metadata/generated/2`
 
 ## 9. S3 업로드
 
@@ -155,7 +163,7 @@ node scripts/uploadToS3.js images/generated images
 예:
 
 - `images/generated/1.png` -> `s3://your-bucket/images/1.png`
-- `metadata/generated/1.json` -> `s3://your-bucket/metadata/1.json`
+- `metadata/generated/1` -> `s3://your-bucket/metadata/1`
 
 ## 10. S3 공개 설정
 
@@ -188,7 +196,7 @@ node scripts/uploadToS3.js images/generated images
 
 확인 예시:
 
-- `https://your-bucket.s3.ap-northeast-2.amazonaws.com/metadata/1.json`
+- `https://your-bucket.s3.ap-northeast-2.amazonaws.com/metadata/1`
 - `https://your-bucket.s3.ap-northeast-2.amazonaws.com/images/1.png`
 
 ## 11. 권장 실행 순서
@@ -219,5 +227,22 @@ https://hoodi.etherscan.io/nft/<컨트랙트주소>/1
 
 Etherscan 반영이 늦을 수 있으므로, 먼저 아래 두 URL이 직접 열리는지 확인하는 것이 가장 확실합니다.
 
-- `https://your-bucket.s3.ap-northeast-2.amazonaws.com/metadata/1.json`
+- `https://your-bucket.s3.ap-northeast-2.amazonaws.com/metadata/1`
 - `https://your-bucket.s3.ap-northeast-2.amazonaws.com/images/1.png`
+
+## 13. React DApp 실행
+
+프론트엔드 환경변수는 [`frontend/.env.sample`](/home/ubuntu/workspace/bu-nft1/frontend/.env.sample) 을 복사해서 사용합니다.
+
+```bash
+cd frontend
+cp .env.sample .env
+npm install
+npm run dev
+```
+
+사용하는 값:
+
+- `VITE_RPC_URL`: 읽기 전용 RPC URL
+- `VITE_CONTRACT_NETWORK`: 프론트에 표시할 네트워크 이름
+- `VITE_CONTRACT_ADDRESS`: 프론트가 조회할 컨트랙트 주소

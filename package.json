@@ -22,7 +22,10 @@
     "metadata": "node scripts/generateMetadata.js",
     "images": "node scripts/generateCharacterImages.js",
     "upload:metadata": "node scripts/uploadToS3.js metadata/generated metadata",
-    "upload:images": "node scripts/uploadToS3.js images/generated images"
+    "upload:images": "node scripts/uploadToS3.js images/generated images",
+    "dapp:install": "cd frontend && npm install",
+    "dapp:dev": "cd frontend && npm run dev",
+    "dapp:build": "cd frontend && npm run build"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",

@@ -62,7 +62,7 @@ function main() {
             NFT_BASE_URI: getOptionalEnv("NFT_BASE_URI") || "NFT_BASE_URI",
             NFT_IMAGE_BASE_URI: imageBaseUri || "NFT_IMAGE_BASE_URI"
         });
-        const filename = path.join(outputDir, `${tokenId}.json`);
+        const filename = path.join(outputDir, String(tokenId));
 
         fs.writeFileSync(filename, `${JSON.stringify(metadata, null, 2)}\n`);
     }
