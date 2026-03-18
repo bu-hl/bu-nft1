@@ -6,14 +6,18 @@
     "compile": "hardhat compile",
     "deploy": "hardhat run scripts/deploy.js",
     "deploy:localhost": "hardhat run scripts/deploy.js --network localhost",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
     "deploy:hoodi": "hardhat run scripts/deploy.js --network hoodi",
     "node": "hardhat node",
     "node:stop": "lsof -ti:8545 | xargs kill -9 2>/dev/null || echo 'No node running'",
     "mint": "hardhat run scripts/mint.js --network localhost",
+    "mint:sepolia": "hardhat run scripts/mint.js --network sepolia",
     "mint:hoodi": "hardhat run scripts/mint.js --network hoodi",
     "set-uri": "hardhat run scripts/setBaseURI.js --network localhost",
+    "set-uri:sepolia": "hardhat run scripts/setBaseURI.js --network sepolia",
     "set-uri:hoodi": "hardhat run scripts/setBaseURI.js --network hoodi",
-    "wallet": "node scripts/wallet.js"
+    "wallet": "node scripts/wallet.js",
+    "address": "node scripts/privateKeyToAddress.js"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",

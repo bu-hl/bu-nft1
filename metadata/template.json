@@ -2,7 +2,6 @@
   "name": "SimpleNFT #TOKEN_ID",
   "description": "My NFT Collection Description",
   "image": "https://YOUR_BUCKET.s3.ap-northeast-2.amazonaws.com/images/TOKEN_ID.png",
-  "external_url": "https://your-website.com/nft/TOKEN_ID",
   "attributes": [
     {
       "trait_type": "Background",
